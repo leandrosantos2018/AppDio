@@ -1,7 +1,5 @@
 import 'package:flutter/Material.dart';
-import 'package:trilhapp2/components/login_page.dart';
-
-import 'components/homePage.dart';
+import 'package:trilhapp2/components/Login/login_page.dart';
 
 class Myapp extends StatelessWidget {
   const Myapp({super.key});
