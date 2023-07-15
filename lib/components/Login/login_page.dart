@@ -10,6 +10,8 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
   final TextEditingController email = TextEditingController();
   final TextEditingController senha = TextEditingController();
+  bool isObscureText = false;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -71,6 +73,9 @@ class _LoginPageState extends State<LoginPage> {
                               child: Container(
                                 margin: EdgeInsets.all(15),
                                 child: TextFormField(
+                                  validator: (value) {
+                                    
+                                  },
                                   onChanged: (value) {
                                     email.text = value;
                                   },
@@ -101,30 +106,37 @@ class _LoginPageState extends State<LoginPage> {
                           Expanded(
                               flex: 3,
                               child: Container(
-                                margin: EdgeInsets.all(15),
+                                margin: const  EdgeInsets.all(15),
                                 child: TextFormField(
-                                  obscureText: true,
+                                  obscureText: isObscureText,
                                   onChanged: (value) {
                                     senha.text = value;
                                   },
                                   style: const TextStyle(color: Colors.white),
-                                  decoration: const InputDecoration(
-                                      contentPadding: EdgeInsets.only(top: 0),
-                                      enabledBorder: UnderlineInputBorder(
+                                  decoration: InputDecoration(
+                                      contentPadding: const EdgeInsets.only(top: 0),
+                                      enabledBorder: const UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.purple)),
-                                      prefixIcon: Icon(
+                                      prefixIcon: const Icon(
                                         Icons.lock,
                                         color: Colors.purple,
                                       ),
-                                      suffixIcon: Icon(
-                                        Icons.visibility,
-                                        color: Colors.white,
+                                      suffixIcon: InkWell(
+                                        onTap: () {
+                                          setState(() {
+                                            isObscureText = !isObscureText;
+                                          });
+                                        },
+                                        child: const Icon(
+                                          Icons.visibility,
+                                          color: Colors.white,
+                                        ),
                                       ),
-                                      border: UnderlineInputBorder(),
+                                      border: const UnderlineInputBorder(),
                                       hintText: 'Senha',
                                       hintStyle:
-                                          TextStyle(color: Colors.purple)),
+                                         const  TextStyle(color: Colors.purple)),
                                 ),
                               )),
                         ],
@@ -143,6 +155,7 @@ class _LoginPageState extends State<LoginPage> {
                                     MaterialStateProperty.all(Colors.purple),
                               ),
                               onPressed: () {
+                                // criar função de autenticação 
                                 print(email.text);
                                 print(senha.text);
                               },
