@@ -1,20 +1,22 @@
 import 'package:flutter/Material.dart';
-import 'package:trilhapp2/components/Home/main_page.dart';
 import 'package:trilhapp2/components/Login/login_create_conta.dart';
-import 'package:trilhapp2/components/Login/login_recupera_senha.dart';
-import 'package:trilhapp2/components/Ultis/input.dart';
+import 'package:trilhapp2/components/Login/login_page.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class LoginRecuperaSenha extends StatefulWidget {
+  const LoginRecuperaSenha({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<LoginRecuperaSenha> createState() => _LoginRecuperaSenhaState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _LoginRecuperaSenhaState extends State<LoginRecuperaSenha> {
   final TextEditingController email = TextEditingController();
   final TextEditingController senha = TextEditingController();
   bool isObscureText = false;
+
+  final snackBar = SnackBar(
+      backgroundColor: Colors.green,
+      content: Text('E-mail enviado com sucesso'));
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +46,7 @@ class _LoginPageState extends State<LoginPage> {
                             flex: 10,
                             child: Image.network(
                               "https://hermes.digitalinnovation.one/assets/diome/logo.png",
-                              height: 100,
+                              height: 80,
                             ),
                           ),
                           Expanded(
@@ -52,11 +54,8 @@ class _LoginPageState extends State<LoginPage> {
                           ),
                         ],
                       ),
-                      const SizedBox(
-                        height: 10,
-                      ),
                       const Text(
-                        "Já Tem Cadastro ?",
+                        "Esqueci minha senha",
                         style: TextStyle(
                             color: Colors.white,
                             fontSize: 26,
@@ -65,12 +64,8 @@ class _LoginPageState extends State<LoginPage> {
                       const SizedBox(
                         height: 10,
                       ),
-                      const Text("Faça seu login e make the change._",
+                      const Text("Calma! Vamos ajudar você com isso. :)",
                           style: TextStyle(color: Colors.white, fontSize: 16)),
-                      const SizedBox(
-                        height: 20,
-                      ),
-                      InputText(email: email, label: "E-mail"),
                       const SizedBox(
                         height: 20,
                       ),
@@ -79,48 +74,33 @@ class _LoginPageState extends State<LoginPage> {
                           Expanded(
                               flex: 3,
                               child: Container(
-                                margin: const EdgeInsets.all(15),
+                                margin: EdgeInsets.all(15),
                                 child: TextFormField(
-                                  controller: senha,
-                                  obscureText: isObscureText,
-                                  // outra forma pega dados formfield
-                                  // onChanged: (value) {
-                                  //   senha.text = value;
-                                  // },
-                                  style: const TextStyle(color: Colors.white),
-                                  decoration: InputDecoration(
-                                      contentPadding:
-                                          const EdgeInsets.only(top: 0),
-                                      enabledBorder: const UnderlineInputBorder(
+                                  validator: (value) {},
+                                  onChanged: (value) {
+                                    email.text = value;
+                                  },
+                                  style: TextStyle(color: Colors.white),
+                                  keyboardType: TextInputType.emailAddress,
+                                  decoration: const InputDecoration(
+                                      contentPadding: EdgeInsets.only(top: 0),
+                                      hintText: "E-mail cadastrado",
+                                      hintStyle:
+                                          TextStyle(color: Colors.purple),
+                                      enabledBorder: UnderlineInputBorder(
                                           borderSide:
                                               BorderSide(color: Colors.purple)),
-                                      prefixIcon: const Icon(
-                                        Icons.lock,
+                                      prefixIcon: Icon(
+                                        Icons.email,
                                         color: Colors.purple,
                                       ),
-                                      suffixIcon: InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            isObscureText = !isObscureText;
-                                          });
-                                        },
-                                        child: isObscureText
-                                            ? const Icon(
-                                                Icons.visibility_off,
-                                                color: Colors.white,
-                                              )
-                                            : const Icon(
-                                                Icons.visibility,
-                                                color: Colors.white,
-                                              ),
-                                      ),
-                                      border: const UnderlineInputBorder(),
-                                      hintText: 'Senha',
-                                      hintStyle: const TextStyle(
-                                          color: Colors.purple)),
+                                      border: UnderlineInputBorder()),
                                 ),
-                              )),
+                              ))
                         ],
+                      ),
+                      const SizedBox(
+                        height: 20,
                       ),
                       const SizedBox(
                         height: 10,
@@ -137,14 +117,14 @@ class _LoginPageState extends State<LoginPage> {
                               ),
                               onPressed: () {
                                 // criar função de autenticação
-                                Navigator.pushReplacement(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) =>
-                                            const MainPage()));
+                                Navigator.of(context).push(MaterialPageRoute(
+                                    builder: (context) => const LoginPage()));
+
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(snackBar);
                               },
                               child: const Text(
-                                "ENTRAR",
+                                "Recuperar Senha",
                                 style: TextStyle(color: Colors.white),
                               ))
                         ],
@@ -158,13 +138,9 @@ class _LoginPageState extends State<LoginPage> {
                       Column(
                         children: [
                           TextButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      const LoginRecuperaSenha()));
-                            },
+                            onPressed: () {},
                             child: const Text(
-                              "Esqueci minha Senha",
+                              "Ainda não tem uma conta gratuita?",
                               style: TextStyle(color: Colors.amber),
                             ),
                             //
@@ -181,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                                       builder: (context) =>
                                           const LoginCadastrarConta()));
                                 },
-                                child: const Text("Criar Conta",
+                                child: const Text("Criar Conta ",
                                     style: TextStyle(color: Colors.green)),
                                 //
                               )),
